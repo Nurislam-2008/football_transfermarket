@@ -25,9 +25,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Добавь сюда
+    'whitenoise.middleware.WhiteNoiseMiddleware',                 # <- Добавили для Render
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # ... остальные
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',   # <- Должна быть эта строка!
+    'django.contrib.messages.middleware.MessageMiddleware',      # <- И эта!
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 ROOT_URLCONF = 'myproject.urls'
 
