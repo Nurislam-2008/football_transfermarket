@@ -1,0 +1,133 @@
+{% extends "players/base.html" %}
+
+{% block title %}{{ player.name }} — Football Market{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'player_list' %}" class="back-link">← К списку игроков</a>
+
+<div class="player-card">
+    <div class="player-header">
+        <div class="player-photo-wrap">
+            {% if player.photo %}
+                <img src="{{ player.photo.url }}" alt="{{ player.name }}" class="player-photo">
+            {% else %}
+                <div class="avatar-placeholder avatar-xl">{{ player.name|first }}</div>
+            {% endif %}
+            {% if player.number %}
+                <div class="player-number">#{{ player.number }}</div>
+            {% endif %}
+        </div>
+
+        <div class="player-main">
+            <h1>{{ player.name }}</h1>
+            <div class="badges-row">
+                <span class="position-badge position-{{ player.position|lower }}">
+                    {{ player.get_position_display }}
+                </span>
+                {% if player.nationality %}
+                    <span class="badge">🌍 {{ player.nationality.name }}</span>
+                {% endif %}
+                <span class="badge">🎂 {{ player.age }} лет</span>
+            </div>
+            {% if player.club %}
+                <p class="club-line">
+                    Клуб:
+                    <a href="{{ player.club.get_absolute_url }}">{{ player.club.name }}</a>
+                </p>
+            {% endif %}
+            <div class="market-value-box">
+                <div class="market-value-label">Рыночная стоимость</div>
+                <div class="market-value">{{ player.market_value }} млн €</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat">
+            <span>{{ player.matches }}</span>
+            Матчи
+        </div>
+        <div class="stat">
+            <span>{{ player.goals }}</span>
+            Голы
+        </div>
+        <div class="stat">
+            <span>{{ player.assists }}</span>
+            Ассисты
+        </div>
+        {% if player.matches %}
+        <div class="stat">
+            <span>{{ player.goals|floatformat:0 }}</span>
+            Голов всего
+        </div>
+        {% endif %}
+    </div>
+
+    {% if player.achievements_list %}
+    <section class="section">
+        <h2>🏆 Достижения</h2>
+        <ul class="achievements">
+            {% for a in player.achievements_list %}
+                <li>{{ a }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if player.transfers.all %}
+    <section class="section">
+        <h2>💼 История трансферов</h2>
+        <div class="table-wrap">
+            <table class="players-table">
+                <thead>
+                    <tr>
+                        <th>Год</th>
+                        <th>Из клуба</th>
+                        <th>В клуб</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for t in player.transfers.all %}
+                    <tr>
+                        <td>{{ t.year }}</td>
+                        <td>{{ t.from_club|default:"—" }}</td>
+                        <td>{{ t.to_club|default:"—" }}</td>
+                        <td class="price">{{ t.price }} млн €</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% endif %}
+</div>
+
+{% if similar_players %}
+<section class="section similar-section">
+    <h2>👥 Похожие игроки ({{ player.get_position_display }})</h2>
+    <div class="similar-grid">
+        {% for sp in similar_players %}
+            <a href="{{ sp.get_absolute_url }}" class="similar-card">
+                <div class="player-avatar">
+                    {% if sp.photo %}
+                        <img src="{{ sp.photo.url }}" alt="{{ sp.name }}">
+                    {% else %}
+                        <div class="avatar-placeholder">{{ sp.name|first }}</div>
+                    {% endif %}
+                </div>
+                <div class="similar-info">
+                    <div class="similar-name">{{ sp.name }}</div>
+                    <div class="similar-meta">
+                        {% if sp.club %}{{ sp.club.name }}{% else %}—{% endif %}
+                    </div>
+                </div>
+                <div class="similar-price">{{ sp.market_value }} млн €</div>
+            </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "players/base.html" %}
+
+{% block title %}Игроки — Football Market{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>💰 Трансферный рынок</h1>
+        <p class="page-subtitle">Все игроки, их стоимость и статистика в одном месте</p>
+    </div>
+</section>
+
+<section class="stats-cards">
+    <div class="stat-card">
+        <div class="stat-icon">👤</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_players }}</div>
+            <div class="stat-label">Игроков</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⚽</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_clubs }}</div>
+            <div class="stat-label">Клубов</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">💎</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_value|floatformat:0 }} млн €</div>
+            <div class="stat-label">Общая стоимость</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ avg_value|floatformat:1 }} млн €</div>
+            <div class="stat-label">Средняя цена</div>
+        </div>
+    </div>
+</section>
+
+{% if top_player %}
+<section class="top-player">
+    <div class="top-player-badge">🏆 Самый дорогой</div>
+    <div class="top-player-content">
+        <div class="top-player-avatar">
+            {% if top_player.photo %}
+                <img src="{{ top_player.photo.url }}" alt="{{ top_player.name }}">
+            {% else %}
+                <div class="avatar-placeholder">{{ top_player.name|first }}</div>
+            {% endif %}
+        </div>
+        <div class="top-player-info">
+            <h2 class="top-player-name">
+                <a href="{{ top_player.get_absolute_url }}">{{ top_player.name }}</a>
+            </h2>
+            <p class="top-player-meta">
+                {{ top_player.get_position_display }} · {{ top_player.age }} лет
+                {% if top_player.club %} · {{ top_player.club.name }}{% endif %}
+            </p>
+        </div>
+        <div class="top-player-value">{{ top_player.market_value }} млн €</div>
+    </div>
+</section>
+{% endif %}
+
+<form method="get" class="filters">
+    <input type="text" name="search" placeholder="🔍 Поиск игрока, клуба, страны..."
+           value="{{ current_search }}">
+    <select name="position">
+        <option value="">Все позиции</option>
+        {% for code, name in positions %}
+            <option value="{{ code }}" {% if current_position == code %}selected{% endif %}>
+                {{ name }}
+            </option>
+        {% endfor %}
+    </select>
+    <select name="sort">
+        <option value="-market_value" {% if current_sort == '-market_value' %}selected{% endif %}>💰 Дорогие сначала</option>
+        <option value="market_value"  {% if current_sort == 'market_value' %}selected{% endif %}>💵 Дешёвые сначала</option>
+        <option value="-age"          {% if current_sort == '-age' %}selected{% endif %}>📅 Старшие</option>
+        <option value="age"           {% if current_sort == 'age' %}selected{% endif %}>🍼 Младшие</option>
+        <option value="-goals"        {% if current_sort == '-goals' %}selected{% endif %}>⚽ По голам</option>
+    </select>
+    <button type="submit">Применить</button>
+</form>
+
+<div class="table-wrap">
+    <table class="players-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Игрок</th>
+                <th>Клуб</th>
+                <th>Позиция</th>
+                <th>Возраст</th>
+                <th>Голы</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in players %}
+            <tr>
+                <td class="num">{{ forloop.counter }}</td>
+                <td>
+                    <a href="{{ p.get_absolute_url }}" class="player-cell">
+                        <div class="player-avatar">
+                            {% if p.photo %}
+                                <img src="{{ p.photo.url }}" alt="{{ p.name }}">
+                            {% else %}
+                                <div class="avatar-placeholder">{{ p.name|first }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="player-name-wrap">
+                            <span class="player-name">{{ p.name }}</span>
+                            {% if p.nationality %}
+                                <span class="player-country">{{ p.nationality.name }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                </td>
+                <td>
+                    {% if p.club %}
+                        <a href="{{ p.club.get_absolute_url }}" class="club-link">{{ p.club.name }}</a>
+                    {% else %}
+                        <span class="muted">—</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="position-badge position-{{ p.position|lower }}">
+                        {{ p.get_position_display }}
+                    </span>
+                </td>
+                <td>{{ p.age }}</td>
+                <td>{{ p.goals }}</td>
+                <td class="price">{{ p.market_value }} млн €</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7" class="empty-state">
+                    Игроков пока нет. Добавь их через <a href="/admin/">админку</a>.
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&search={{ current_search }}&position={{ current_position }}&sort={{ current_sort }}">← Назад</a>
+    {% endif %}
+    <span>Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&search={{ current_search }}&position={{ current_position }}&sort={{ current_sort }}">Вперёд →</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

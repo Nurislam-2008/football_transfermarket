@@ -1,0 +1,447 @@
+/* ============ ОБНУЛЕНИЕ ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg: #0b1220;
+    --bg-card: #1a2436;
+    --bg-hover: #263449;
+    --bg-dark: #060b16;
+    --accent: #22c55e;
+    --accent-hover: #16a34a;
+    --accent-glow: rgba(34, 197, 94, 0.3);
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #2b3a52;
+    --link: #38bdf8;
+    --gold: #fbbf24;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    background-image:
+        radial-gradient(circle at 20% 0%, rgba(34,197,94,0.06), transparent 40%),
+        radial-gradient(circle at 80% 100%, rgba(56,189,248,0.05), transparent 40%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: var(--link); text-decoration: none; transition: color .15s; }
+a:hover { color: #7dd3fc; }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; width: 100%; }
+.main-content { flex: 1; padding-top: 30px; padding-bottom: 60px; }
+
+/* ============ NAVBAR ============ */
+.navbar {
+    background: rgba(6, 11, 22, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+}
+.navbar-inner { display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 10px; color: var(--accent); font-size: 1.4rem; font-weight: 800; letter-spacing: -.5px; }
+.logo:hover { color: var(--accent); }
+.logo-icon { font-size: 1.6rem; }
+
+.nav-links { display: flex; gap: 8px; }
+.nav-link { color: var(--text); padding: 8px 16px; border-radius: 8px; font-weight: 500; transition: all .15s; }
+.nav-link:hover { background: var(--bg-hover); color: var(--accent); }
+.nav-link-admin { color: var(--text-muted); font-size: 0.9rem; }
+
+/* ============ ЗАГОЛОВКИ ============ */
+h1 { color: var(--text); font-size: 2.2rem; margin-bottom: 8px; font-weight: 800; letter-spacing: -.5px; }
+h2 { color: var(--text); font-size: 1.3rem; margin: 30px 0 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.page-subtitle { color: var(--text-muted); font-size: 1rem; }
+.back-link { display: inline-block; color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+.back-link:hover { color: var(--accent); }
+
+/* ============ HERO ============ */
+.hero { background: linear-gradient(135deg, rgba(34,197,94,.1), rgba(56,189,248,.05)); border: 1px solid var(--border); border-radius: 16px; padding: 30px 35px; margin-bottom: 25px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, var(--accent-glow), transparent 70%); border-radius: 50%; }
+.hero-text h1 { color: var(--accent); font-size: 2.5rem; margin-bottom: 5px; }
+
+/* ============ КАРТОЧКИ СТАТИСТИКИ ============ */
+.stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; transition: transform .2s, border-color .2s, box-shadow .2s; }
+.stat-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(34,197,94,.15); }
+.stat-icon { font-size: 2rem; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+.stat-value { font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+.stat-label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ============ ТОП-ИГРОК ============ */
+.top-player { background: linear-gradient(135deg, rgba(251,191,36,.12), rgba(251,191,36,.03)); border: 1px solid rgba(251,191,36,.4); border-radius: 16px; padding: 20px; margin-bottom: 25px; position: relative; }
+.top-player-badge { position: absolute; top: -12px; left: 20px; background: var(--gold); color: var(--bg); font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: .5px; }
+.top-player-content { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.top-player-avatar .avatar-placeholder { width: 70px; height: 70px; font-size: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); color: var(--gold); font-weight: 800; border: 2px solid var(--gold); overflow: hidden; }
+.top-player-avatar img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+.top-player-info { flex: 1; }
+.top-player-name { font-size: 1.4rem; margin: 0 0 4px; }
+.top-player-name a { color: var(--text); }
+.top-player-name a:hover { color: var(--gold); }
+.top-player-meta { color: var(--text-muted); font-size: 0.95rem; }
+.top-player-value { font-size: 1.8rem; font-weight: 800; color: var(--gold); white-space: nowrap; }
+
+/* ============ ФИЛЬТРЫ ============ */
+.filters { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; background: var(--bg-card); padding: 16px; border-radius: 12px; border: 1px solid var(--border); }
+.filters input, .filters select, .filters button { padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.95rem; outline: none; font-family: inherit; transition: border-color .2s, background .2s; }
+.filters input { flex: 1; min-width: 220px; }
+.filters input:focus, .filters select:focus { border-color: var(--accent); background: var(--bg-dark); }
+.filters button { background: var(--accent); color: var(--bg-dark); font-weight: 700; cursor: pointer; border: none; padding: 12px 28px; transition: all .15s; }
+.filters button:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px var(--accent-glow); }
+
+/* ============ ТАБЛИЦА ============ */
+.table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.players-table { width: 100%; border-collapse: collapse; background: var(--bg-card); min-width: 720px; }
+.players-table th { background: var(--bg-dark); color: var(--text-muted); padding: 14px 16px; text-align: left; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; border-bottom: 1px solid var(--border); }
+.players-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; font-size: 0.95rem; }
+.players-table tbody tr { transition: background .15s; }
+.players-table tbody tr:hover { background: var(--bg-hover); }
+.players-table tbody tr:last-child td { border-bottom: none; }
+.players-table .num { color: var(--text-muted); font-variant-numeric: tabular-nums; width: 40px; font-weight: 600; }
+
+/* --- Ячейка игрока --- */
+.player-cell { display: flex; align-items: center; gap: 12px; color: var(--text); }
+.player-cell:hover .player-name { color: var(--accent); }
+.player-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--border); background: var(--bg-dark); }
+.player-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e293b, #334155); color: var(--accent); font-weight: 800; font-size: 1.1rem; text-transform: uppercase; }
+.player-name-wrap { display: flex; flex-direction: column; line-height: 1.25; }
+.player-name { font-weight: 600; color: var(--text); transition: color .15s; }
+.player-country { font-size: 0.75rem; color: var(--text-muted); }
+.club-link { font-weight: 500; }
+.muted { color: var(--text-muted); }
+
+/* --- Бейдж позиции --- */
+.position-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; border: 1px solid transparent; }
+.position-gk { background: rgba(251,191,36,.15); color: var(--gold); border-color: rgba(251,191,36,.4); }
+.position-df { background: rgba(59,130,246,.15); color: #60a5fa; border-color: rgba(59,130,246,.4); }
+.position-mf { background: rgba(34,197,94,.15);  color: #4ade80; border-color: rgba(34,197,94,.4); }
+.position-fw { background: rgba(239,68,68,.15);  color: #f87171; border-color: rgba(239,68,68,.4); }
+.price { color: var(--accent); font-weight: 700; white-space: nowrap; }
+
+/* ============ КАРТОЧКА ИГРОКА ============ */
+.player-card { background: var(--bg-card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+.player-header { display: flex; gap: 30px; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; }
+.player-photo-wrap { position: relative; flex-shrink: 0; }
+.player-photo { width: 180px; height: 180px; border-radius: 16px; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 6px 20px var(--accent-glow); }
+.avatar-xl { width: 180px; height: 180px; border-radius: 16px; font-size: 4rem; border: 3px solid var(--accent); }
+.player-number { position: absolute; bottom: -10px; right: -10px; background: var(--accent); color: var(--bg-dark); font-weight: 800; font-size: 1.1rem; padding: 6px 14px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.4); }
+.player-main { flex: 1; min-width: 280px; }
+.player-main h1 { font-size: 2.4rem; color: var(--text); margin-bottom: 12px; }
+.badges-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.badge { display: inline-block; padding: 5px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; color: var(--text-muted); }
+.club-line { margin: 10px 0; color: var(--text); font-size: 1rem; }
+.club-line a { font-weight: 600; }
+.market-value-box { margin-top: 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; display: inline-block; }
+.market-value-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+.market-value { font-size: 2rem; color: var(--accent); font-weight: 800; line-height: 1; }
+
+/* ============ СТАТИСТИКА ============ */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin: 25px 0; }
+.stat { background: var(--bg); padding: 22px; border-radius: 12px; text-align: center; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .8px; border: 1px solid var(--border); transition: transform .2s, border-color .2s; }
+.stat:hover { transform: translateY(-4px); border-color: var(--accent); }
+.stat span { display: block; font-size: 2.2rem; color: var(--accent); font-weight: 800; margin-bottom: 6px; line-height: 1; }
+
+/* ============ ДОСТИЖЕНИЯ ============ */
+.section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
+.achievements { list-style: none; margin-top: 10px; background: var(--bg); border-radius: 12px; padding: 8px 0; border: 1px solid var(--border); }
+.achievements li { padding: 14px 20px 14px 50px; position: relative; border-bottom: 1px solid var(--border); color: var(--text); }
+.achievements li:last-child { border-bottom: none; }
+.achievements li::before { content: '🏅'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.15rem; }
+
+/* ============ ПОХОЖИЕ ИГРОКИ ============ */
+.similar-section { margin-top: 30px; }
+.similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 15px; }
+.similar-card { display: flex; align-items: center; gap: 12px; background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border); color: var(--text); transition: all .2s; }
+.similar-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,.15); }
+.similar-info { flex: 1; min-width: 0; }
+.similar-name { font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.similar-meta { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.similar-price { color: var(--accent); font-weight: 700; white-space: nowrap; font-size: 0.95rem; }
+
+/* ============ СТРАНИЦА КЛУБА ============ */
+.club-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; background: linear-gradient(135deg, rgba(56,189,248,.08), transparent); border: 1px solid var(--border); border-radius: 16px; padding: 25px; margin-bottom: 20px; }
+.club-header h1 { color: var(--accent); font-size: 2rem; }
+.club-stats { display: flex; gap: 25px; }
+.club-stat { text-align: right; }
+.club-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+.club-stat-label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ============ ПАГИНАЦИЯ ============ */
+.pagination { margin-top: 25px; display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.pagination a { color: var(--link); padding: 10px 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); font-weight: 600; transition: all .15s; }
+.pagination a:hover { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); }
+.pagination span { color: var(--text-muted); }
+
+/* ============ ПУСТОЕ СОСТОЯНИЕ ============ */
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 1.05rem; }
+
+/* ============ FOOTER ============ */
+.footer { background: var(--bg-dark); border-top: 1px solid var(--border); padding: 25px 0; margin-top: auto; }
+.footer-inner { text-align: center; }
+.footer p { color: var(--text-muted); font-size: 0.9rem; }
+.footer-small { color: #475569 !important; font-size: 0.8rem !important; margin-top: 4px; }
+
+/* ============ АДАПТИВ ============ */
+@media (max-width: 768px) {
+    h1 { font-size: 1.6rem; }
+    .hero-text h1 { font-size: 1.8rem; }
+    .player-main h1 { font-size: 1.8rem; }
+    .market-value { font-size: 1.5rem; }
+    .top-player-value { font-size: 1.4rem; }
+    .navbar-inner { flex-direction: column; gap: 10px; }
+    .logo { font-size: 1.2rem; }
+    .hero { padding: 20px; }
+    .stats-cards { grid-template-columns: 1fr 1fr; }
+    .stat-card { padding: 14px; }
+    .stat-icon { font-size: 1.5rem; width: 42px; height: 42px; }
+    .stat-value { font-size: 1.15rem; }
+    .filters { flex-direction: column; }
+    .filters input, .filters select, .filters button { width: 100%; }
+    .players-table th:nth-child(4), .players-table td:nth-child(4),
+    .players-table th:nth-child(5), .players-table td:nth-child(5),
+    .players-table th:nth-child(6), .players-table td:nth-child(6) { display: none; }
+    .player-card { padding: 20px; }
+    .player-photo, .avatar-xl { width: 130px; height: 130px; font-size: 3rem; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .stat { padding: 14px; }
+    .stat span { font-size: 1.6rem; }
+    .club-header { flex-direction: column; align-items: flex-start; }
+    .club-stats { gap: 15px; }/* ============ ОБНУЛЕНИЕ ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg: #0b1220;
+    --bg-card: #1a2436;
+    --bg-hover: #263449;
+    --bg-dark: #060b16;
+    --accent: #22c55e;
+    --accent-hover: #16a34a;
+    --accent-glow: rgba(34, 197, 94, 0.3);
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #2b3a52;
+    --link: #38bdf8;
+    --gold: #fbbf24;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    background-image:
+        radial-gradient(circle at 20% 0%, rgba(34,197,94,0.06), transparent 40%),
+        radial-gradient(circle at 80% 100%, rgba(56,189,248,0.05), transparent 40%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: var(--link); text-decoration: none; transition: color .15s; }
+a:hover { color: #7dd3fc; }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; width: 100%; }
+.main-content { flex: 1; padding-top: 30px; padding-bottom: 60px; }
+
+/* ============ NAVBAR ============ */
+.navbar {
+    background: rgba(6, 11, 22, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+}
+.navbar-inner { display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 10px; color: var(--accent); font-size: 1.4rem; font-weight: 800; letter-spacing: -.5px; }
+.logo:hover { color: var(--accent); }
+.logo-icon { font-size: 1.6rem; }
+
+.nav-links { display: flex; gap: 8px; }
+.nav-link { color: var(--text); padding: 8px 16px; border-radius: 8px; font-weight: 500; transition: all .15s; }
+.nav-link:hover { background: var(--bg-hover); color: var(--accent); }
+.nav-link-admin { color: var(--text-muted); font-size: 0.9rem; }
+
+/* ============ ЗАГОЛОВКИ ============ */
+h1 { color: var(--text); font-size: 2.2rem; margin-bottom: 8px; font-weight: 800; letter-spacing: -.5px; }
+h2 { color: var(--text); font-size: 1.3rem; margin: 30px 0 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.page-subtitle { color: var(--text-muted); font-size: 1rem; }
+.back-link { display: inline-block; color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+.back-link:hover { color: var(--accent); }
+
+/* ============ HERO ============ */
+.hero { background: linear-gradient(135deg, rgba(34,197,94,.1), rgba(56,189,248,.05)); border: 1px solid var(--border); border-radius: 16px; padding: 30px 35px; margin-bottom: 25px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, var(--accent-glow), transparent 70%); border-radius: 50%; }
+.hero-text h1 { color: var(--accent); font-size: 2.5rem; margin-bottom: 5px; }
+
+/* ============ КАРТОЧКИ СТАТИСТИКИ ============ */
+.stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; transition: transform .2s, border-color .2s, box-shadow .2s; }
+.stat-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(34,197,94,.15); }
+.stat-icon { font-size: 2rem; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+.stat-value { font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+.stat-label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ============ ТОП-ИГРОК ============ */
+.top-player { background: linear-gradient(135deg, rgba(251,191,36,.12), rgba(251,191,36,.03)); border: 1px solid rgba(251,191,36,.4); border-radius: 16px; padding: 20px; margin-bottom: 25px; position: relative; }
+.top-player-badge { position: absolute; top: -12px; left: 20px; background: var(--gold); color: var(--bg); font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: .5px; }
+.top-player-content { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.top-player-avatar .avatar-placeholder { width: 70px; height: 70px; font-size: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); color: var(--gold); font-weight: 800; border: 2px solid var(--gold); overflow: hidden; }
+.top-player-avatar img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+.top-player-info { flex: 1; }
+.top-player-name { font-size: 1.4rem; margin: 0 0 4px; }
+.top-player-name a { color: var(--text); }
+.top-player-name a:hover { color: var(--gold); }
+.top-player-meta { color: var(--text-muted); font-size: 0.95rem; }
+.top-player-value { font-size: 1.8rem; font-weight: 800; color: var(--gold); white-space: nowrap; }
+
+/* ============ ФИЛЬТРЫ ============ */
+.filters { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; background: var(--bg-card); padding: 16px; border-radius: 12px; border: 1px solid var(--border); }
+.filters input, .filters select, .filters button { padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.95rem; outline: none; font-family: inherit; transition: border-color .2s, background .2s; }
+.filters input { flex: 1; min-width: 220px; }
+.filters input:focus, .filters select:focus { border-color: var(--accent); background: var(--bg-dark); }
+.filters button { background: var(--accent); color: var(--bg-dark); font-weight: 700; cursor: pointer; border: none; padding: 12px 28px; transition: all .15s; }
+.filters button:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px var(--accent-glow); }
+
+/* ============ ТАБЛИЦА ============ */
+.table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.players-table { width: 100%; border-collapse: collapse; background: var(--bg-card); min-width: 720px; }
+.players-table th { background: var(--bg-dark); color: var(--text-muted); padding: 14px 16px; text-align: left; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; border-bottom: 1px solid var(--border); }
+.players-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; font-size: 0.95rem; }
+.players-table tbody tr { transition: background .15s; }
+.players-table tbody tr:hover { background: var(--bg-hover); }
+.players-table tbody tr:last-child td { border-bottom: none; }
+.players-table .num { color: var(--text-muted); font-variant-numeric: tabular-nums; width: 40px; font-weight: 600; }
+
+/* --- Ячейка игрока --- */
+.player-cell { display: flex; align-items: center; gap: 12px; color: var(--text); }
+.player-cell:hover .player-name { color: var(--accent); }
+.player-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--border); background: var(--bg-dark); }
+.player-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e293b, #334155); color: var(--accent); font-weight: 800; font-size: 1.1rem; text-transform: uppercase; }
+.player-name-wrap { display: flex; flex-direction: column; line-height: 1.25; }
+.player-name { font-weight: 600; color: var(--text); transition: color .15s; }
+.player-country { font-size: 0.75rem; color: var(--text-muted); }
+.club-link { font-weight: 500; }
+.muted { color: var(--text-muted); }
+
+/* --- Бейдж позиции --- */
+.position-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; border: 1px solid transparent; }
+.position-gk { background: rgba(251,191,36,.15); color: var(--gold); border-color: rgba(251,191,36,.4); }
+.position-df { background: rgba(59,130,246,.15); color: #60a5fa; border-color: rgba(59,130,246,.4); }
+.position-mf { background: rgba(34,197,94,.15);  color: #4ade80; border-color: rgba(34,197,94,.4); }
+.position-fw { background: rgba(239,68,68,.15);  color: #f87171; border-color: rgba(239,68,68,.4); }
+.price { color: var(--accent); font-weight: 700; white-space: nowrap; }
+
+/* ============ КАРТОЧКА ИГРОКА ============ */
+.player-card { background: var(--bg-card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+.player-header { display: flex; gap: 30px; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; }
+.player-photo-wrap { position: relative; flex-shrink: 0; }
+.player-photo { width: 180px; height: 180px; border-radius: 16px; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 6px 20px var(--accent-glow); }
+.avatar-xl { width: 180px; height: 180px; border-radius: 16px; font-size: 4rem; border: 3px solid var(--accent); }
+.player-number { position: absolute; bottom: -10px; right: -10px; background: var(--accent); color: var(--bg-dark); font-weight: 800; font-size: 1.1rem; padding: 6px 14px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.4); }
+.player-main { flex: 1; min-width: 280px; }
+.player-main h1 { font-size: 2.4rem; color: var(--text); margin-bottom: 12px; }
+.badges-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.badge { display: inline-block; padding: 5px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; color: var(--text-muted); }
+.club-line { margin: 10px 0; color: var(--text); font-size: 1rem; }
+.club-line a { font-weight: 600; }
+.market-value-box { margin-top: 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; display: inline-block; }
+.market-value-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+.market-value { font-size: 2rem; color: var(--accent); font-weight: 800; line-height: 1; }
+
+/* ============ СТАТИСТИКА ============ */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin: 25px 0; }
+.stat { background: var(--bg); padding: 22px; border-radius: 12px; text-align: center; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .8px; border: 1px solid var(--border); transition: transform .2s, border-color .2s; }
+.stat:hover { transform: translateY(-4px); border-color: var(--accent); }
+.stat span { display: block; font-size: 2.2rem; color: var(--accent); font-weight: 800; margin-bottom: 6px; line-height: 1; }
+
+/* ============ ДОСТИЖЕНИЯ ============ */
+.section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
+.achievements { list-style: none; margin-top: 10px; background: var(--bg); border-radius: 12px; padding: 8px 0; border: 1px solid var(--border); }
+.achievements li { padding: 14px 20px 14px 50px; position: relative; border-bottom: 1px solid var(--border); color: var(--text); }
+.achievements li:last-child { border-bottom: none; }
+.achievements li::before { content: '🏅'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.15rem; }
+
+/* ============ ПОХОЖИЕ ИГРОКИ ============ */
+.similar-section { margin-top: 30px; }
+.similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 15px; }
+.similar-card { display: flex; align-items: center; gap: 12px; background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border); color: var(--text); transition: all .2s; }
+.similar-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,.15); }
+.similar-info { flex: 1; min-width: 0; }
+.similar-name { font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.similar-meta { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.similar-price { color: var(--accent); font-weight: 700; white-space: nowrap; font-size: 0.95rem; }
+
+/* ============ СТРАНИЦА КЛУБА ============ */
+.club-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; background: linear-gradient(135deg, rgba(56,189,248,.08), transparent); border: 1px solid var(--border); border-radius: 16px; padding: 25px; margin-bottom: 20px; }
+.club-header h1 { color: var(--accent); font-size: 2rem; }
+.club-stats { display: flex; gap: 25px; }
+.club-stat { text-align: right; }
+.club-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+.club-stat-label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ============ ПАГИНАЦИЯ ============ */
+.pagination { margin-top: 25px; display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.pagination a { color: var(--link); padding: 10px 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); font-weight: 600; transition: all .15s; }
+.pagination a:hover { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); }
+.pagination span { color: var(--text-muted); }
+
+/* ============ ПУСТОЕ СОСТОЯНИЕ ============ */
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 1.05rem; }
+
+/* ============ FOOTER ============ */
+.footer { background: var(--bg-dark); border-top: 1px solid var(--border); padding: 25px 0; margin-top: auto; }
+.footer-inner { text-align: center; }
+.footer p { color: var(--text-muted); font-size: 0.9rem; }
+.footer-small { color: #475569 !important; font-size: 0.8rem !important; margin-top: 4px; }
+
+/* ============ АДАПТИВ ============ */
+@media (max-width: 768px) {
+    h1 { font-size: 1.6rem; }
+    .hero-text h1 { font-size: 1.8rem; }
+    .player-main h1 { font-size: 1.8rem; }
+    .market-value { font-size: 1.5rem; }
+    .top-player-value { font-size: 1.4rem; }
+    .navbar-inner { flex-direction: column; gap: 10px; }
+    .logo { font-size: 1.2rem; }
+    .hero { padding: 20px; }
+    .stats-cards { grid-template-columns: 1fr 1fr; }
+    .stat-card { padding: 14px; }
+    .stat-icon { font-size: 1.5rem; width: 42px; height: 42px; }
+    .stat-value { font-size: 1.15rem; }
+    .filters { flex-direction: column; }
+    .filters input, .filters select, .filters button { width: 100%; }
+    .players-table th:nth-child(4), .players-table td:nth-child(4),
+    .players-table th:nth-child(5), .players-table td:nth-child(5),
+    .players-table th:nth-child(6), .players-table td:nth-child(6) { display: none; }
+    .player-card { padding: 20px; }
+    .player-photo, .avatar-xl { width: 130px; height: 130px; font-size: 3rem; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .stat { padding: 14px; }
+    .stat span { font-size: 1.6rem; }
+    .club-header { flex-direction: column; align-items: flex-start; }
+    .club-stats { gap: 15px; }
+    .club-stat { text-align: left; }
+}
+@media (max-width: 480px) {
+    .stats-cards { grid-template-columns: 1fr; }
+    .similar-grid { grid-template-columns: 1fr; }
+}
+    .club-stat { text-align: left; }
+}
+@media (max-width: 480px) {
+    .stats-cards { grid-template-columns: 1fr; }
+    .similar-grid { grid-template-columns: 1fr; }
+}

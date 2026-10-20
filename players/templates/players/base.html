@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Football Market{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- ЭТА СТРОКА -->
+</head>
+...
+<body>
+
+<header class="navbar">
+    <div class="container navbar-inner">
+        <a href="{% url 'player_list' %}" class="logo">
+            <span class="logo-icon">⚽</span>
+            <span>Football Market</span>
+        </a>
+        <nav class="nav-links">
+            <a href="{% url 'player_list' %}" class="nav-link">Игроки</a>
+            <a href="/admin/" class="nav-link nav-link-admin">Админка</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container main-content">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container footer-inner">
+        <p>© Football Market — учебный проект на Django</p>
+        <p class="footer-small">Данные об игроках, клубах и трансферах</p>
+    </div>
+</footer>
+
+</body>
+</html>

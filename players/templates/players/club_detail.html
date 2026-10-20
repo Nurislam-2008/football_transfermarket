@@ -1,0 +1,78 @@
+{% extends "players/base.html" %}
+
+{% block title %}{{ club.name }} — Football Market{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'player_list' %}" class="back-link">← К списку игроков</a>
+
+<div class="club-header">
+    <div>
+        <h1>⚽ {{ club.name }}</h1>
+        <p class="page-subtitle">
+            {{ club.country.name|default:"—" }}
+            {% if club.founded %} · Основан в {{ club.founded }}{% endif %}
+        </p>
+    </div>
+    <div class="club-stats">
+        <div class="club-stat">
+            <div class="club-stat-value">{{ players_count }}</div>
+            <div class="club-stat-label">Игроков</div>
+        </div>
+        <div class="club-stat">
+            <div class="club-stat-value">{{ total_value|floatformat:0 }} млн €</div>
+            <div class="club-stat-label">Общая стоимость</div>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+    <h2>Игроки клуба</h2>
+    <div class="table-wrap">
+        <table class="players-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Игрок</th>
+                    <th>Позиция</th>
+                    <th>Возраст</th>
+                    <th>Голы</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for p in players %}
+                <tr>
+                    <td class="num">{{ forloop.counter }}</td>
+                    <td>
+                        <a href="{{ p.get_absolute_url }}" class="player-cell">
+                            <div class="player-avatar">
+                                {% if p.photo %}
+                                    <img src="{{ p.photo.url }}" alt="{{ p.name }}">
+                                {% else %}
+                                    <div class="avatar-placeholder">{{ p.name|first }}</div>
+                                {% endif %}
+                            </div>
+                            <span class="player-name">{{ p.name }}</span>
+                        </a>
+                    </td>
+                    <td>
+                        <span class="position-badge position-{{ p.position|lower }}">
+                            {{ p.get_position_display }}
+                        </span>
+                    </td>
+                    <td>{{ p.age }}</td>
+                    <td>{{ p.goals }}</td>
+                    <td class="price">{{ p.market_value }} млн €</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="empty-state">В клубе пока нет игроков</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}
